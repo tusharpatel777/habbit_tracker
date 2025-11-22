@@ -1,4 +1,3 @@
-Okay, here's a simpler and more relevant README.md.
 
 🚀 HabitPulse - AI-Powered Habit Tracker
 
