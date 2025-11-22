@@ -1,16 +1,14 @@
-// frontend/src/pages/DashboardPage.jsx
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { getHabits } from '../services/habitService';
 import { Link } from 'react-router-dom';
 import MotivationalQuote from '../components/MotivationalQuote'; 
 
-// Import Heroicons for StatCard (Stack, CheckCircle, Fire, Trophy) - from @heroicons/react/24/outline
 import {
-  RectangleStackIcon, // Equivalent to 'Stack'
-  CheckCircleIcon,    // Equivalent to 'Check Circle'
-  FireIcon,           // Equivalent to 'Fire'
-  TrophyIcon          // Equivalent to 'Trophy'
+  RectangleStackIcon, 
+  CheckCircleIcon,   
+  FireIcon,           
+  TrophyIcon          
 } from '@heroicons/react/24/outline';
 
 
@@ -150,12 +148,10 @@ function DashboardPage() {
 
 export default DashboardPage;
 
-// --- Helper Component for Dashboard ---
-// Heroicon components will be passed directly as `icon` prop.
+
 const StatCard = ({ title, value, icon, iconColor, animateDelay }) => (
   <div className={`flex flex-col items-center justify-center p-6 rounded-xl shadow-lg bg-white/5 backdrop-blur-md border border-white/10 text-white animate-fade-in-up ${animateDelay}`}>
     <div className={`text-5xl mb-3 ${iconColor}`}>
-      {/* Ensure icon prop is rendered correctly (it's already a React component here) */}
       {React.cloneElement(icon, { className: 'w-12 h-12' })}
     </div>
     <h3 className="text-lg font-semibold text-gray-200 mb-1">{title}</h3>

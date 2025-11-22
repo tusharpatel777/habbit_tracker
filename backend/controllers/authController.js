@@ -16,7 +16,7 @@ exports.register = async (req, res, next) => {
 
     sendTokenResponse(user, 201, res);
   } catch (err) {
-    if (err.code === 11000) { // Duplicate key error (e.g., email already exists)
+    if (err.code === 11000) { 
       return res.status(400).json({ success: false, error: 'User with this email already exists.' });
     }
     if (err.name === 'ValidationError') {
@@ -28,26 +28,21 @@ exports.register = async (req, res, next) => {
   }
 };
 
-// @desc    Login user
-// @route   POST /api/auth/login
-// @access  Public
+
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
 
-  // Validate email and password
   if (!email || !password) {
     return res.status(400).json({ success: false, error: 'Please enter an email and password' });
   }
 
   try {
-    // Check for user
-    const user = await User.findOne({ email }).select('+password'); // Select password explicitly
+    const user = await User.findOne({ email }).select('+password'); 
 
     if (!user) {
       return res.status(401).json({ success: false, error: 'Invalid credentials' });
     }
 
-    // Check if password matches
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch) {
@@ -61,11 +56,8 @@ exports.login = async (req, res, next) => {
   }
 };
 
-// @desc    Get current logged in user
-// @route   GET /api/auth/me
-// @access  Private
+
 exports.getMe = async (req, res, next) => {
-  // req.user is populated from the protect middleware
   const user = await User.findById(req.user.id);
 
   res.status(200).json({
@@ -74,9 +66,7 @@ exports.getMe = async (req, res, next) => {
   });
 };
 
-// @desc    Update user details
-// @route   PUT /api/auth/updatedetails
-// @access  Private
+
 exports.updateDetails = async (req, res, next) => {
   const fieldsToUpdate = {
     name: req.body.name,
@@ -85,8 +75,8 @@ exports.updateDetails = async (req, res, next) => {
 
   try {
     const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
-      new: true, // Return the updated document
-      runValidators: true, // Run schema validators
+      new: true, 
+      runValidators: true, 
     });
 
     res.status(200).json({
@@ -99,7 +89,7 @@ exports.updateDetails = async (req, res, next) => {
       },
     });
   } catch (err) {
-    if (err.code === 11000) { // Duplicate email error
+    if (err.code === 11000) { 
       return res.status(400).json({ success: false, error: 'Email already in use.' });
     }
     if (err.name === 'ValidationError') {
@@ -111,12 +101,11 @@ exports.updateDetails = async (req, res, next) => {
   }
 };
 
-// Get token from model, create cookie and send response
+
 const sendTokenResponse = (user, statusCode, res) => {
   // Create token
   const token = user.getSignedJwtToken();
 
-  // Calculate expiry in milliseconds
   const expireMilliseconds = env.JWT_COOKIE_EXPIRE_DAYS * 24 * 60 * 60 * 1000;
 
   const options = {

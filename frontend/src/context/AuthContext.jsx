@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [loading, setLoading] = useState(true);
-  const [authError, setAuthError] = useState(null); // For auth-specific errors
+  const [authError, setAuthError] = useState(null); 
 
   useEffect(() => {
     const loadUser = async () => {
@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
           setUser(fetchedUser);
         } catch (err) {
           console.error('Failed to load user from token:', err);
-          logout(); // If token is invalid or expired, log out
+          logout(); 
         }
       }
       setLoading(false);
@@ -34,11 +34,11 @@ export const AuthProvider = ({ children }) => {
       setToken(response.token);
       setUser(response.user);
       setLoading(false);
-      return true; // Indicate success
+      return true; 
     } catch (err) {
       setAuthError(err.message || 'Login failed');
       setLoading(false);
-      throw err; // Re-throw for form components to catch
+      throw err; 
     }
   };
 
@@ -51,11 +51,11 @@ export const AuthProvider = ({ children }) => {
       setToken(response.token);
       setUser(response.user);
       setLoading(false);
-      return true; // Indicate success
+      return true; 
     } catch (err) {
       setAuthError(err.message || 'Registration failed');
       setLoading(false);
-      throw err; // Re-throw for form components to catch
+      throw err; 
     }
   };
 

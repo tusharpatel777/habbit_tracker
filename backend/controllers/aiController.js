@@ -6,20 +6,20 @@ const genAI = new GoogleGenerativeAI(env.GEMINI_API_KEY);
 exports.suggestHabits = async (req, res) => {
   const { goal } = req.body;
 
-  if (!env.GEMINI_API_KEY || env.GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE') {
+  if (!env.GEMINI_API_KEY) {
     console.error('ERROR: GEMINI_API_KEY is not set or is still the placeholder.');
-    return res.status(500).json({ success: false, error: 'Gemini API Key is not configured correctly in the backend. Please check your .env file.' });
+    return res.status(500).json({ success: false, error: 'gemini API Key is not configured correctly in the backend. Please check your .env file.' });
   }
 
   if (!goal) {
     return res.status(400).json({ success: false, error: 'Please provide a user goal.' });
   }
 
-  console.log('--- AI Suggestion Request ---');
+  console.log(' AI Suggestion Request ');
   console.log('Goal:', goal);
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' }); // Confirmed working model
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' }); 
 
     const prompt = `Given the user goal: "${goal}", suggest 3 specific, actionable, and measurable habits.
                     For each habit, provide a short name (max 5 words) and a brief description.
@@ -74,12 +74,12 @@ exports.suggestHabits = async (req, res) => {
   } catch (err) {
     console.error('CRITICAL AI Error in suggestHabits (unhandled exception):', err);
     if (err.message && err.message.includes('API key')) {
-      return res.status(401).json({ success: false, error: 'Gemini API Error: Invalid or expired API Key.' });
+      return res.status(401).json({ success: false, error: ' API Error: Invalid or expired API Key.' });
     }
     if (err.status) {
-        console.error('Gemini API Error Status:', err.status);
-        console.error('Gemini API Error Details:', err.details);
-        return res.status(err.status).json({ success: false, error: err.details || `Gemini API Error: ${err.message}` });
+        console.error(' aPI Error Status:', err.status);
+        console.error(' aPI Error Details:', err.details);
+        return res.status(err.status).json({ success: false, error: err.details || ` API Error: ${err.message}` });
     }
     res.status(500).json({ success: false, error: 'Failed to generate habit suggestions due to an unhandled server-side AI error.' });
   }

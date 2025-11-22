@@ -13,7 +13,7 @@ const app = express();
 app.use(cors());  
 app.use(express.json());
 app.use(cookieParser()); 
-
+ 
 // Routes
 app.use('/api/habits', require('./routes/habits'));
 app.use('/api/ai', require('./routes/ai'));

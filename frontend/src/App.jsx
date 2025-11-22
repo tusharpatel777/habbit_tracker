@@ -12,7 +12,7 @@ import DashboardPage from './pages/DashboardPage';
 import ProfilePage from './pages/ProfilePage';
 import HabitDetailPage from './pages/HabitDetailPage';
 import MotivationalQuote from './components/MotivationalQuote';
-
+import { deleteHabit } from './services/habitService';
 import {
   ArrowPathIcon,     
   ChartBarIcon,    
@@ -64,18 +64,16 @@ function App() {
     if (user && token) {
         fetchHabits();
     } else {
-        setHabits([]); // Clear habits if no user or token
+        setHabits([]); 
     }
-  }, [user, token]); // Depend on user and token
+  }, [user, token]); 
 
-  // Handler for adding a new habit
   const handleAddHabit = async (name) => {
-    if (!token) return; // Prevent if not logged in
+    if (!token) return; 
     try {
-      // Ensure createHabit is correctly imported and available here
       const newHabit = await import('./services/habitService').then(module => module.createHabit(name, token));
       setHabits((prevHabits) => [...prevHabits, newHabit]);
-      setHabitError(null); // Clear any previous habit errors
+      setHabitError(null); 
     } catch (err) {
       console.error('Failed to add habit:', err);
       setHabitError(err.message || 'Failed to add habit.');
@@ -96,19 +94,36 @@ function App() {
     }
   };
 
-  const handleDeleteHabit = async (id) => {
-    if (!token) return;
-    if (window.confirm('Are you sure you want to delete this habit?')) {
-      try {
-        await import('./services/habitService').then(module => module.deleteHabit(id, token));
-        setHabits((prevHabits) => prevHabits.filter((habit) => habit._id !== id));
-        setHabitError(null); 
-      } catch (err) {
-        console.error('Failed to delete habit:', err);
-        setHabitError(err.message || 'Failed to delete habit.');
-      }
-    }
-  };
+  // const handleDeleteHabit = async (id) => {
+  //   if (!token) return;
+  //   if (window.confirm('Are you sure you want to delete this habit?')) {
+  //     try {
+  //       await import('./services/habitService').then(module => module.deleteHabit(id, token));
+  //       setHabits((prevHabits) => prevHabits.filter((habit) => habit._id !== id));
+  //       setHabitError(null); 
+  //     } catch (err) {
+  //       console.error('Failed to delete habit:', err);
+  //       setHabitError(err.message || 'Failed to delete habit.');
+  //     }
+  //   }
+  // };
+const handleDeleteHabit = async (id) => {
+  if (!token) return;
+
+  const confirmed = window.confirm("Are you sure you want to delete this habit?");
+  if (!confirmed) return;
+
+  try {
+    await deleteHabit(id, token);
+
+    setHabits((prev) => prev.filter((h) => h._id !== id));
+    setHabitError(null);
+
+  } catch (err) {
+    console.error("Failed to delete habit:", err);
+    setHabitError(err.message || "Failed to delete habit.");
+  }
+};
 
   const HabitTrackerContent = () => (
     <div className="relative min-h-[calc(100vh-64px)] bg-gradient-to-br from-gray-950 via-indigo-950 to-purple-950 p-8 overflow-hidden pt-[80px]">
@@ -127,7 +142,7 @@ function App() {
           <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">My HabitPulse</span> <span className="text-white">Tracker</span>
         </h1>
 
-        <MotivationalQuote /> {/* Place MotivationalQuote here */}
+        <MotivationalQuote /> 
 
         {habitError && (
           <div className="bg-red-900/30 border border-red-700 text-red-300 px-4 py-3 rounded relative mb-6 animate-fade-in-up animate-delay-300" role="alert">

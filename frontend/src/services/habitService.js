@@ -72,7 +72,7 @@ export const deleteHabit = async (id, token) => {
       const errorData = await response.json();
       throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
     }
-    return true; // No data expected for delete, just check success
+    return true; 
   } catch (error) {
     console.error(`Error deleting habit ${id}:`, error);
     throw error;
@@ -115,7 +115,6 @@ export const updateHabit = async (id, habitData, token) => {
   }
 };
 
-// --- AI Suggestion Operation ---
 export const getAiHabitSuggestions = async (goal) => {
   try {
     const response = await fetch(`${AI_API_URL}/suggest-habits`, {

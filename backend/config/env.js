@@ -5,8 +5,8 @@ const config = {
   MONGO_URI: process.env.MONGO_URI || 'mongodb://localhost:27017/habit-tracker-db-default',
   GEMINI_API_KEY: process.env.GEMINI_API_KEY,
   JWT_SECRET: process.env.JWT_SECRET || 'fallbackjwtsecret',
-  JWT_EXPIRE: process.env.JWT_EXPIRE || '30d', // Keep this as a string for jsonwebtoken
-  JWT_COOKIE_EXPIRE_DAYS: parseInt(process.env.JWT_COOKIE_EXPIRE_DAYS || '30', 10), // <-- Ensure this is an integer
+  JWT_EXPIRE: process.env.JWT_EXPIRE || '30d', 
+  JWT_COOKIE_EXPIRE_DAYS: parseInt(process.env.JWT_COOKIE_EXPIRE_DAYS || '30', 10),
 };
 
 console.log('--- ENV Config Loaded ---');

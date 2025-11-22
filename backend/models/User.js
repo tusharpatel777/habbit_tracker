@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add a password'],
     minlength: 6,
-    select: false, // Don't return password in queries by default
+    select: false, 
   },
   createdAt: {
     type: Date,
@@ -29,7 +29,7 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// Encrypt password using bcrypt before saving
+
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next();
@@ -38,14 +38,12 @@ UserSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Sign JWT and return
 UserSchema.methods.getSignedJwtToken = function () {
   return jwt.sign({ id: this._id }, env.JWT_SECRET, {
     expiresIn: env.JWT_EXPIRE,
   });
 };
 
-// Match user entered password to hashed password in database
 UserSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
