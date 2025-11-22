@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
@@ -83,31 +82,27 @@ function App() {
     }
   };
 
-  // Handler for completing a habit
   const handleCompleteHabit = async (id) => {
-    if (!token) return; // Prevent if not logged in
+    if (!token) return; 
     try {
-      // Ensure completeHabit is correctly imported and available here
       const updatedHabit = await import('./services/habitService').then(module => module.completeHabit(id, token));
       setHabits((prevHabits) =>
         prevHabits.map((habit) => (habit._id === id ? updatedHabit : habit))
       );
-      setHabitError(null); // Clear any previous habit errors
+      setHabitError(null);
     } catch (err) {
       console.error('Failed to complete habit:', err);
       setHabitError(err.message || 'Failed to mark habit as complete.');
     }
   };
 
-  // Handler for deleting a habit
   const handleDeleteHabit = async (id) => {
-    if (!token) return; // Prevent if not logged in
+    if (!token) return;
     if (window.confirm('Are you sure you want to delete this habit?')) {
       try {
-        // Ensure deleteHabit is correctly imported and available here
         await import('./services/habitService').then(module => module.deleteHabit(id, token));
         setHabits((prevHabits) => prevHabits.filter((habit) => habit._id !== id));
-        setHabitError(null); // Clear any previous habit errors
+        setHabitError(null); 
       } catch (err) {
         console.error('Failed to delete habit:', err);
         setHabitError(err.message || 'Failed to delete habit.');
@@ -117,7 +112,6 @@ function App() {
 
   const HabitTrackerContent = () => (
     <div className="relative min-h-[calc(100vh-64px)] bg-gradient-to-br from-gray-950 via-indigo-950 to-purple-950 p-8 overflow-hidden pt-[80px]">
-      {/* Background Heroicon elements */}
       <div className="absolute top-1/4 left-1/4 w-48 h-48 opacity-[0.07] text-purple-400 transform -rotate-12 pointer-events-none animate-float-slow">
         <ChartBarIcon className="w-full h-full" />
       </div>
@@ -189,7 +183,6 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        {/* Protected Routes */}
         <Route
           path="/dashboard"
           element={

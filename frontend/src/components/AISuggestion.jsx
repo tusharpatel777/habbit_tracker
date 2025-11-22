@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { getAiHabitSuggestions } from '../services/habitService';
 
@@ -18,12 +17,13 @@ function AISuggestion({ onAddHabit }) {
     setSuggestions([]); // Clear previous suggestions
 
     try {
-      // Simulate a network delay for better UI feedback of the loading spinner
-      await new Promise(resolve => setTimeout(resolve, 800));
+      // Simulate a network delay for better UI feedback of the loading spinner (optional)
+      // await new Promise(resolve => setTimeout(resolve, 800));
       const aiSuggestions = await getAiHabitSuggestions(goal);
       setSuggestions(aiSuggestions);
     } catch (err) {
       console.error('Error fetching AI suggestions:', err);
+      // Display the specific error message from the backend if available
       setError(err.message || 'Failed to get AI suggestions. Please try again.');
     } finally {
       setLoading(false);

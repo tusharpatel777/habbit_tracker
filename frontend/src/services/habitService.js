@@ -1,12 +1,15 @@
+// frontend/src/services/habitService.js
 
 const API_BASE_URL = 'http://localhost:5000/api/habits';
 const AI_API_URL = 'http://localhost:5000/api/ai';
 
+// Helper function to create headers with authorization
 const getAuthHeaders = (token) => ({
   'Content-Type': 'application/json',
   Authorization: `Bearer ${token}`,
 });
 
+// --- Habit CRUD Operations ---
 
 export const getHabits = async (token) => {
   try {
@@ -25,7 +28,6 @@ export const getHabits = async (token) => {
   }
 };
 
-// Create a new habit
 export const createHabit = async (habitName, token) => {
   try {
     const response = await fetch(API_BASE_URL, {
@@ -45,7 +47,6 @@ export const createHabit = async (habitName, token) => {
   }
 };
 
-// Mark a habit as completed
 export const completeHabit = async (id, token) => {
   try {
     const response = await fetch(`${API_BASE_URL}/${id}/complete`, {
@@ -64,7 +65,6 @@ export const completeHabit = async (id, token) => {
   }
 };
 
-// Delete a habit
 export const deleteHabit = async (id, token) => {
   try {
     const response = await fetch(`${API_BASE_URL}/${id}`, {
@@ -82,7 +82,6 @@ export const deleteHabit = async (id, token) => {
   }
 };
 
-// Get a single habit by ID
 export const getHabitById = async (id, token) => {
   try {
     const response = await fetch(`${API_BASE_URL}/${id}`, {
@@ -100,8 +99,7 @@ export const getHabitById = async (id, token) => {
   }
 };
 
-// Update a habit's details
-export const updateHabit = async (id, habitData, token) => { // <--- CORRECTED: Removed duplicate 'const'
+export const updateHabit = async (id, habitData, token) => {
   try {
     const response = await fetch(`${API_BASE_URL}/${id}`, {
       method: 'PUT',
@@ -120,6 +118,7 @@ export const updateHabit = async (id, habitData, token) => { // <--- CORRECTED: 
   }
 };
 
+// --- AI Suggestion Operation ---
 export const getAiHabitSuggestions = async (goal) => {
   try {
     const response = await fetch(`${AI_API_URL}/suggest-habits`, {
@@ -131,7 +130,9 @@ export const getAiHabitSuggestions = async (goal) => {
     });
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      // Crucial: If the backend sends an error with an 'error' property, use it.
+      // Otherwise, provide a generic message or the status.
+      throw new Error(errorData.error || `HTTP error! status: ${response.status} from AI endpoint.`);
     }
     const data = await response.json();
     return data.data;
