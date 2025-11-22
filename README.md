@@ -27,73 +27,37 @@ Node.js (LTS recommended)
 npm or Yarn
 
 1. Clone the Repository
-code
-Bash
-download
-content_copy
-expand_less
-git clone https://github.com/tusharpatel777/habbit_tracker.git
-cd habit-tracker
+
+--> git clone https://github.com/tusharpatel777/habbit_tracker.git
+--> cd habit-tracker
+
 2. Backend Setup
-code
-Bash
-download
-content_copy
-expand_less
+
 cd backend
 npm install 
 
 Create a .env file in the backend directory with:
 
-code
-Env
-download
-content_copy
-expand_less
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=a_strong_secret_key
 GEMINI_API_KEY=your_openai_api_key (optional, for AI suggestions)
 
-Start the Backend:
-
-code
-Bash
-download
-content_copy
-expand_less
-npm start 
+Start the Backend: npm start 
 
 The backend will run on http://localhost:5000.
 
 3. Frontend Setup
-code
-Bash
-download
-content_copy
-expand_less
+
 cd ../frontend
 npm install # or yarn install
 npm install @heroicons/react # for UI icons
 
 Create a .env file in the frontend directory with:
 
-code
-Env
-download
-content_copy
-expand_less
-
 VITE_API_BASE_URL=http://localhost:5000/api
 
-Start the Frontend:
-
-code
-Bash
-download
-content_copy
-expand_less
-npm run dev # or yarn dev
+Start the Frontend: npm run dev
 
 The frontend will open in your browser, typically on http://localhost:5173.
 
