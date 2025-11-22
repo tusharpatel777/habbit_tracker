@@ -1,4 +1,3 @@
-// frontend/src/context/AuthContext.jsx
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { registerUser, loginUser, getMe } from '../services/authService';
 

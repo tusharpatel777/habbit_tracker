@@ -1,12 +1,8 @@
-// backend/controllers/habitController.js
 const Habit = require('../models/Habit');
 
-// @desc    Get all habits for the authenticated user
-// @route   GET /api/habits
-// @access  Private
+
 exports.getHabits = async (req, res) => {
   try {
-    // Only fetch habits belonging to the logged-in user (req.user.id is set by protect middleware)
     const habits = await Habit.find({ user: req.user.id });
     res.status(200).json({ success: true, count: habits.length, data: habits });
   } catch (err) {
@@ -15,12 +11,8 @@ exports.getHabits = async (req, res) => {
   }
 };
 
-// @desc    Create new habit for the authenticated user
-// @route   POST /api/habits
-// @access  Private
 exports.createHabit = async (req, res) => {
   try {
-    // Add the user ID from the authenticated request to the habit object
     req.body.user = req.user.id;
     const habit = await Habit.create(req.body);
     res.status(201).json({ success: true, data: habit });
@@ -35,12 +27,9 @@ exports.createHabit = async (req, res) => {
   }
 };
 
-// @desc    Mark habit as completed (update streak and lastCompleted)
-// @route   PATCH /api/habits/:id/complete
-// @access  Private
+
 exports.completeHabit = async (req, res) => {
   try {
-    // Find habit by ID AND ensure it belongs to the authenticated user
     const habit = await Habit.findOne({ _id: req.params.id, user: req.user.id });
 
     if (!habit) {
@@ -81,23 +70,47 @@ exports.completeHabit = async (req, res) => {
   }
 };
 
-// @desc    Delete habit
-// @route   DELETE /api/habits/:id
-// @access  Private
+
 exports.deleteHabit = async (req, res) => {
   try {
-    // Find habit by ID AND ensure it belongs to the authenticated user
     const habit = await Habit.findOne({ _id: req.params.id, user: req.user.id });
 
     if (!habit) {
       return res.status(404).json({ success: false, error: 'Habit not found or not owned by user' });
     }
 
-    await habit.remove(); // Mongoose 6+ users might prefer deleteOne or findByIdAndDelete
+    await habit.remove(); 
 
     res.status(200).json({ success: true, data: {} });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, error: 'Server Error deleting habit' });
+  }
+};
+
+exports.updateHabit = async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    let habit = await Habit.findOne({ _id: req.params.id, user: req.user.id });
+
+    if (!habit) {
+      return res.status(404).json({ success: false, error: 'Habit not found or not owned by user' });
+    }
+
+    if (name) {
+      habit.name = name;
+    }
+
+    await habit.save(); 
+
+    res.status(200).json({ success: true, data: habit });
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map(val => val.message);
+      return res.status(400).json({ success: false, error: messages });
+    }
+    console.error(err);
+    res.status(500).json({ success: false, error: 'Server Error updating habit' });
   }
 };

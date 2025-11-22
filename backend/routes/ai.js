@@ -1,4 +1,3 @@
-// backend/routes/ai.js
 const express = require('express');
 const { suggestHabits } = require('../controllers/aiController');
 

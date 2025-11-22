@@ -1,10 +1,9 @@
-// backend/controllers/authController.js
+
 const User = require('../models/User');
 const env = require('../config/env');
+const jwt = require('jsonwebtoken');
 
-// @desc    Register user
-// @route   POST /api/auth/register
-// @access  Public
+
 exports.register = async (req, res, next) => {
   const { name, email, password } = req.body;
 
@@ -76,38 +75,44 @@ exports.getMe = async (req, res, next) => {
   });
 };
 
+// @desc    Update user details
+// @route   PUT /api/auth/updatedetails
+// @access  Private
+exports.updateDetails = async (req, res, next) => {
+  const fieldsToUpdate = {
+    name: req.body.name,
+    email: req.body.email,
+  };
 
-// // Get token from model, create cookie and send response
-// const sendTokenResponse = (user, statusCode, res) => {
-//   // Create token
-//   const token = user.getSignedJwtToken();
+  try {
+    const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
+      new: true, // Return the updated document
+      runValidators: true, // Run schema validators
+    });
 
-//   // Options for cookie
-//   const options = {
-//     expires: new Date(Date.now() + env.JWT_EXPIRE * 24 * 60 * 60 * 1000), // Convert days to milliseconds
-//     httpOnly: true, // Prevent client-side JS from reading the cookie
-//   };
+    res.status(200).json({
+      success: true,
+      data: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        createdAt: user.createdAt,
+      },
+    });
+  } catch (err) {
+    if (err.code === 11000) { // Duplicate email error
+      return res.status(400).json({ success: false, error: 'Email already in use.' });
+    }
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map(val => val.message);
+      return res.status(400).json({ success: false, error: messages });
+    }
+    console.error(err);
+    res.status(500).json({ success: false, error: 'Server Error updating profile.' });
+  }
+};
 
-//   // If in production, secure cookies (HTTPS)
-//   if (process.env.NODE_ENV === 'production') {
-//     options.secure = true;
-//   }
-
-//   res
-//     .status(statusCode)
-//     .cookie('token', token, options) // Set cookie
-//     .json({
-//       success: true,
-//       token,
-//       user: {
-//         id: user._id,
-//         name: user.name,
-//         email: user.email,
-//       },
-//     });
-// };
-
-
+// Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
   // Create token
   const token = user.getSignedJwtToken();
@@ -115,22 +120,11 @@ const sendTokenResponse = (user, statusCode, res) => {
   // Calculate expiry in milliseconds
   const expireMilliseconds = env.JWT_COOKIE_EXPIRE_DAYS * 24 * 60 * 60 * 1000;
 
-  console.log('--- sendTokenResponse Debug ---');
-  console.log('env.JWT_COOKIE_EXPIRE_DAYS:', env.JWT_COOKIE_EXPIRE_DAYS, 'Type:', typeof env.JWT_COOKIE_EXPIRE_DAYS);
-  console.log('Calculated expireMilliseconds:', expireMilliseconds, 'Type:', typeof expireMilliseconds);
-  console.log('Date.now():', Date.now());
-  console.log('New Date value argument:', Date.now() + expireMilliseconds);
-  console.log('--- End sendTokenResponse Debug ---');
-
-
-  // Options for cookie
   const options = {
-    expires: new Date(Date.now() + expireMilliseconds), // <-- CRITICAL LINE
-    httpOnly: true, // Prevent client-side JS from reading the cookie
-    // You might also want to add 'sameSite: "lax"' or "none" with 'secure: true' for cross-origin if needed
+    expires: new Date(Date.now() + expireMilliseconds),
+    httpOnly: true,
   };
 
-  // If in production, secure cookies (HTTPS)
   if (process.env.NODE_ENV === 'production') {
     options.secure = true;
   }
@@ -146,4 +140,5 @@ const sendTokenResponse = (user, statusCode, res) => {
         name: user.name,
         email: user.email,
       },
-    })};
+    });
+};

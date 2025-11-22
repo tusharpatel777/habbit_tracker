@@ -1,38 +1,3 @@
-// // frontend/src/components/AddHabitForm.jsx
-// import React, { useState } from 'react';
-
-// function AddHabitForm({ onAddHabit }) {
-//   const [habitName, setHabitName] = useState('');
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (habitName.trim()) {
-//       onAddHabit(habitName);
-//       setHabitName(''); // Clear input after adding
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit} className="mb-8 flex space-x-4">
-//       <input
-//         type="text"
-//         placeholder="Enter new habit name..."
-//         value={habitName}
-//         onChange={(e) => setHabitName(e.target.value)}
-//         className="flex-grow p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-//       />
-//       <button
-//         type="submit"
-//         className="px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-200"
-//       >
-//         Add Habit
-//       </button>
-//     </form>
-//   );
-// }
-
-// export default AddHabitForm;
-// frontend/src/components/AddHabitForm.jsx
 import React, { useState } from 'react';
 
 function AddHabitForm({ onAddHabit }) {
@@ -42,7 +7,7 @@ function AddHabitForm({ onAddHabit }) {
     e.preventDefault();
     if (habitName.trim()) {
       onAddHabit(habitName);
-      setHabitName(''); // Clear input after adding
+      setHabitName(''); 
     }
   };
 

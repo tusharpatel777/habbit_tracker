@@ -1,12 +1,8 @@
-// backend/controllers/aiController.js
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const env = require('../config/env');
 
 const genAI = new GoogleGenerativeAI(env.GEMINI_API_KEY);
 
-// @desc    Suggest habits based on user goal
-// @route   POST /api/suggest-habits
-// @access  Public
 exports.suggestHabits = async (req, res) => {
   const { goal } = req.body;
 
