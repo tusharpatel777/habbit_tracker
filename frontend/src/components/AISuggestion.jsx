@@ -14,16 +14,14 @@ function AISuggestion({ onAddHabit }) {
     }
     setLoading(true);
     setError(null);
-    setSuggestions([]); // Clear previous suggestions
+    setSuggestions([]); 
 
     try {
-      // Simulate a network delay for better UI feedback of the loading spinner (optional)
-      // await new Promise(resolve => setTimeout(resolve, 800));
+    
       const aiSuggestions = await getAiHabitSuggestions(goal);
       setSuggestions(aiSuggestions);
     } catch (err) {
       console.error('Error fetching AI suggestions:', err);
-      // Display the specific error message from the backend if available
       setError(err.message || 'Failed to get AI suggestions. Please try again.');
     } finally {
       setLoading(false);
@@ -32,7 +30,6 @@ function AISuggestion({ onAddHabit }) {
 
   const handleAddSuggestedHabit = (suggestionName) => {
     onAddHabit(suggestionName);
-    // Optionally remove the added suggestion from the list
     setSuggestions((prev) => prev.filter(s => s.name !== suggestionName));
   };
 
@@ -52,7 +49,7 @@ function AISuggestion({ onAddHabit }) {
           value={goal}
           onChange={(e) => {
             setGoal(e.target.value);
-            setError(null); // Clear error when typing
+            setError(null); 
           }}
           className="flex-grow p-4 bg-gray-800/50 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-400 transition duration-200 shadow-md"
           disabled={loading}
@@ -88,7 +85,7 @@ function AISuggestion({ onAddHabit }) {
             <div
               key={index}
               className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-lg shadow-md animate-fade-in-up"
-              style={{ animationDelay: `${700 + index * 100}ms` }} // Staggered animation
+              style={{ animationDelay: `${700 + index * 100}ms` }} 
             >
               <div>
                 <p className="font-medium text-white text-lg">{sug.name}</p>

@@ -19,9 +19,9 @@ app.use('/api/habits', require('./routes/habits'));
 app.use('/api/ai', require('./routes/ai'));
 app.use('/api/auth', require('./routes/auth')); 
   
-// Basic route
+
 app.get('/', (req, res) => {
-  res.send('Habit Tracker API is running with MongoDB, AI, and Auth!');
+  res.send('Habit Tracker API is running with MongoDB, AI, and Auth');
 });
 
 app.listen(env.PORT, () => {

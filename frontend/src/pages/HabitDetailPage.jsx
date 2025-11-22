@@ -26,17 +26,11 @@ function HabitDetailPage() {
         setHabit(fetchedHabit);
         setEditedName(fetchedHabit.name);
 
-        // For calendar, we need all historical completion dates.
-        // Our current backend only stores 'lastCompleted'.
-        // To properly show a history on the calendar, the backend 'Habit' model
-        // would need an array of 'completionDates: [Date]'.
-        // For now, we'll simulate a few past completions for demo purposes
-        // or just use 'lastCompleted' if it exists.
+       
         if (fetchedHabit.lastCompleted) {
             const lastCompDate = new Date(fetchedHabit.lastCompleted);
-            setCompletedDates([lastCompDate.toISOString()]); // Use ISO string
-            // For a more complete calendar, you'd fetch/store actual history.
-            // For demonstration, let's add a couple of fake past dates if streak > 1
+            setCompletedDates([lastCompDate.toISOString()]); 
+          
             if (fetchedHabit.streak > 1) {
                 const twoDaysAgo = new Date(lastCompDate);
                 twoDaysAgo.setDate(lastCompDate.getDate() - 1);
@@ -87,7 +81,7 @@ function HabitDetailPage() {
     if (!token) return;
     try {
       const updated = await completeHabit(id, token);
-      setHabit(updated); // Update the local habit state
+      setHabit(updated); 
       
       const today = new Date().toDateString();
       if (!completedDates.map(d => new Date(d).toDateString()).includes(today)) {
@@ -105,7 +99,7 @@ function HabitDetailPage() {
     if (window.confirm('Are you sure you want to delete this habit permanently?')) {
       try {
         await deleteHabit(id, token);
-        navigate('/tracker'); // Redirect to tracker list after deletion
+        navigate('/tracker');
       } catch (err) {
         console.error('Failed to delete habit:', err);
         setError(err.message || 'Failed to delete habit.');

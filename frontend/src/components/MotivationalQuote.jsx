@@ -1,4 +1,3 @@
-// frontend/src/components/MotivationalQuote.jsx
 import React, { useState, useEffect } from 'react';
 
 const quotes = [
@@ -24,9 +23,9 @@ function MotivationalQuote() {
     const interval = setInterval(() => {
       const newIndex = Math.floor(Math.random() * quotes.length);
       setCurrentQuote(quotes[newIndex]);
-    }, 30000); // Change every 30 seconds
+    }, 30000); 
 
-    return () => clearInterval(interval); // Cleanup
+    return () => clearInterval(interval); 
   }, []);
 
   return (

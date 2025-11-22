@@ -94,19 +94,7 @@ function App() {
     }
   };
 
-  // const handleDeleteHabit = async (id) => {
-  //   if (!token) return;
-  //   if (window.confirm('Are you sure you want to delete this habit?')) {
-  //     try {
-  //       await import('./services/habitService').then(module => module.deleteHabit(id, token));
-  //       setHabits((prevHabits) => prevHabits.filter((habit) => habit._id !== id));
-  //       setHabitError(null); 
-  //     } catch (err) {
-  //       console.error('Failed to delete habit:', err);
-  //       setHabitError(err.message || 'Failed to delete habit.');
-  //     }
-  //   }
-  // };
+ 
 const handleDeleteHabit = async (id) => {
   if (!token) return;
 

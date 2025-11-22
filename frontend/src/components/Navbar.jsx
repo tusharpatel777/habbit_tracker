@@ -2,14 +2,13 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-// Import Heroicons
 import {
-  HomeIcon, // For Dashboard
-  ClipboardDocumentListIcon, // For Tracker
-  UserCircleIcon, // For Profile
-  ArrowRightOnRectangleIcon, // For Login & Logout
-  UserPlusIcon // For Register
-} from '@heroicons/react/24/outline'; // Using outline icons for consistency
+  HomeIcon, 
+  ClipboardDocumentListIcon, 
+  UserCircleIcon,
+  ArrowRightOnRectangleIcon, 
+  UserPlusIcon 
+} from '@heroicons/react/24/outline';
 
 function Navbar() {
   const { user, logout } = useAuth();
@@ -23,15 +22,12 @@ function Navbar() {
   return (
     <nav className="fixed w-full top-0 z-50 h-16 bg-gray-900/80 backdrop-blur-md border-b border-white/10 shadow-lg animate-fade-in-down">
       <div className="max-w-7xl mx-auto flex justify-between items-center h-full px-4">
-        {/* Logo */}
         <Link to="/" className="text-3xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text transition duration-300 transform hover:scale-105">
           HabitPulse
         </Link>
 
-        {/* Navigation Links and Buttons */}
         <div className="flex items-center space-x-6">
           {user ? (
-            // User is logged in
             <>
               <NavLink to="/dashboard" icon={<HomeIcon className="h-5 w-5" />}>
                 Dashboard
@@ -54,7 +50,6 @@ function Navbar() {
               </button>
             </>
           ) : (
-            // User is not logged in
             <>
               <NavLink to="/login" icon={<ArrowRightOnRectangleIcon className="h-5 w-5 rotate-180" />}> {/* Rotated for 'in' direction */}
                 Login
@@ -74,7 +69,6 @@ function Navbar() {
   );
 }
 
-// Helper component for consistent NavLink styling
 const NavLink = ({ to, children, icon }) => (
   <Link
     to={to}

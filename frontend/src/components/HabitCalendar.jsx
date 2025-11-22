@@ -21,7 +21,7 @@ function HabitCalendar({ completedDates = [] }) {
 
   const daysInCurrentMonth = getDaysInMonth(currentYear, currentMonth);
 
-  // Get weekday names for header
+  // get weekday names for header
   const weekdayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   return (
@@ -35,7 +35,7 @@ function HabitCalendar({ completedDates = [] }) {
         ))}
       </div>
       <div className="grid grid-cols-7 gap-1">
-        {/* Fill leading empty days */}
+       
         {Array.from({ length: daysInCurrentMonth[0].getDay() }).map((_, i) => (
           <div key={`empty-start-${i}`} className="p-2"></div>
         ))}
@@ -48,13 +48,13 @@ function HabitCalendar({ completedDates = [] }) {
           let dayClasses = "p-2 rounded-md flex items-center justify-center";
           if (isCompleted) {
             dayClasses += " bg-green-200 text-green-800 font-medium";
-          } else if (day > today) { // Future dates
+          } else if (day > today) { 
             dayClasses += " bg-gray-50 text-gray-400";
-          } else { // Past incomplete dates
+          } else { // past incomplete dates 
             dayClasses += " bg-red-50 text-red-700";
           }
           if (isToday) {
-            dayClasses += " ring-2 ring-indigo-500 ring-offset-2"; // Highlight today
+            dayClasses += " ring-2 ring-indigo-500 ring-offset-2"; // highlight krdiya today ko
           }
 
           return (
@@ -63,7 +63,7 @@ function HabitCalendar({ completedDates = [] }) {
             </div>
           );
         })}
-         {/* Fill trailing empty days */}
+         
          {Array.from({ length: 6 - daysInCurrentMonth[daysInCurrentMonth.length -1].getDay() }).map((_, i) => (
           <div key={`empty-end-${i}`} className="p-2"></div>
         ))}

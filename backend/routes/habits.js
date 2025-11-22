@@ -1,11 +1,10 @@
-// // backend/routes/habits.js
 const express = require('express');
 const {
   getHabits,
   createHabit,
   completeHabit,
   deleteHabit,
-  updateHabit, // <--- Import new function
+  updateHabit, 
 } = require('../controllers/habitController');
 const { protect } = require('../middleware/auth');
 
