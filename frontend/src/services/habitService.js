@@ -1,15 +1,12 @@
-// frontend/src/services/habitService.js
 
 const API_BASE_URL = 'http://localhost:5000/api/habits';
 const AI_API_URL = 'http://localhost:5000/api/ai';
 
-// Helper function to create headers with authorization
 const getAuthHeaders = (token) => ({
   'Content-Type': 'application/json',
   Authorization: `Bearer ${token}`,
 });
 
-// --- Habit CRUD Operations ---
 
 export const getHabits = async (token) => {
   try {
@@ -130,8 +127,7 @@ export const getAiHabitSuggestions = async (goal) => {
     });
     if (!response.ok) {
       const errorData = await response.json();
-      // Crucial: If the backend sends an error with an 'error' property, use it.
-      // Otherwise, provide a generic message or the status.
+     
       throw new Error(errorData.error || `HTTP error! status: ${response.status} from AI endpoint.`);
     }
     const data = await response.json();
