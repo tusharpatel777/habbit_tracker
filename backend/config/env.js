@@ -9,8 +9,6 @@ const config = {
   JWT_COOKIE_EXPIRE_DAYS: parseInt(process.env.JWT_COOKIE_EXPIRE_DAYS || '30', 10),
 };
 
-console.log('--- ENV Config Loaded ---');
 console.log('JWT_COOKIE_EXPIRE_DAYS (parsed):', config.JWT_COOKIE_EXPIRE_DAYS, 'Type:', typeof config.JWT_COOKIE_EXPIRE_DAYS);
-console.log('--- End ENV Config ---');
 
 module.exports = config;
